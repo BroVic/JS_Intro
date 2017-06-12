@@ -2,23 +2,29 @@
 
 /**
  * This script is meant to:
- * 1. control the appearance of input field
- * 2. generte a random base number
- * 3. check whether the inputted number matches the base number
- * 4. control the display of the result
- * 5. reset the program
+ * 1. generte a random base number
+ * 2. check whether the inputted number matches the base number
+ * 3. display of the result
  */
 
-// Displays the main program area when Start button is clicked
+// Variable for a random number
+var numRand;
 
 // Generates a random number between 0 and 10
-var x = -1, y;
-function generateNum() {
-    x = 10 * Math.random();
-    x = Math.floor(x);
-    // document.body.innerHTML("#startUp")."A Random number has been generated."
-    return x;
+function init() {
+    var startUpMessage = document.querySelector("#startMsg");
+    
+    numRand = 10 * Math.random();
+    numRand = Math.floor(numRand);
 }
 
-// Collect input
-
+// Compares the input and internally generated number
+function checkEquiv() {
+    var yourNumber = document.querySelector("#numEntry");
+    var displayDiv = document.querySelector("#displayResult")
+    if (yourNumber.value != numRand) {
+        displayDiv.innerHTML = "You have a match!"
+    } else {
+        displayDiv.innerHTML = "Your guess was wrong. Try again."
+    }
+}
