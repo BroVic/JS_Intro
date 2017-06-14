@@ -7,24 +7,25 @@
  * 3. display of the result
  */
 
-// Variable for a random number
-var numRand;
+// Variables
+var numRand, startUpMessage, yourNumber, displayDiv;
 
 // Generates a random number between 0 and 10
 function init() {
-    var startUpMessage = document.querySelector("#startMsg");
-    
-    numRand = 10 * Math.random();
-    numRand = Math.floor(numRand);
+   startUpMessage = document.querySelector("#startMsg");
+   startUpMessage.innerHTML = "Random number generated";
 }
 
 // Compares the input and internally generated number
-function checkEquiv() {
-    var yourNumber = document.querySelector("#numEntry");
+function checkEquiv(numIn, numBase) {
+    numIn = document.querySelector("#numEntry");
     var displayDiv = document.querySelector("#displayResult")
-    if (yourNumber.value != numRand) {
+    
+    if (numIn.value != numBase) {
         displayDiv.innerHTML = "You have a match!"
     } else {
         displayDiv.innerHTML = "Your guess was wrong. Try again."
     }
 }
+
+checkEquiv(yourNumber, numRand);
