@@ -1,32 +1,7 @@
 // Global variables
 var canvas, ctx, w, h;
 
-var ball1 = {
-    x: 100,
-    y: 100,
-    radius: 30,
-    color: 'blue',
-    speedX: 2,
-    speedY: 1
-}
-
-var ball2 = {
-    x: 60,
-    y: 130,
-    radius: 55,
-    color: 'purple',
-    speedX: 3,
-    speedY: 1
-}
-
-var ball3 = {
-    x: 200,
-    y: 250,
-    radius: 15,
-    color: 'green',
-    speedX: 3,
-    speedY: 5
-}
+var balls = [];
 
 var player = {
     x: 10,
@@ -49,6 +24,9 @@ window.onload = function() {
     // important; we will draw with this object
     ctx = canvas.getContext('2d');
 
+    // create 10 balls
+    balls = createBalls(10);
+
     // ready to go!
     mainLoop();
 };
@@ -59,24 +37,66 @@ function mainLoop() {
 
     // draw the ball and the player
     drawFilledRectangle(player);
-    drawFilledCircle(ball1);
-    drawFilledCircle(ball2);
-    drawFilledCircle(ball3);
+    drawAllBalls(balls);
 
     // animate the ball that is bouncing all over the walls
-    moveBall(ball1);
-    moveBall(ball2);
-    moveBall(ball3);
+    moveAllBalls(balls);
 
     // ask for a new animation frame
     requestAnimationFrame(mainLoop);
 }
 
-function moveBall(b) {
-    b.x += b.speedX;
-    b.y += b.speedY;
+function createBalls(n) {
+    // empty array
+    var ballArray = [];
 
-    testCollisionBallWithWalls(b);
+    // create n balls
+    for (var i = 0; i < n; i++) {
+        var b = {
+            x: w/2,
+            y: h/2,
+            radius: 5 + 30 * Math.random(), // b/w 5 and 35
+            speedX: -5 + 10  * Math.random(), // between -5 and +5
+            speedY: -5 + 10 * Math.random(), // between -5 and +5
+            color: getARandomColor(),
+        }
+        
+        // add ball to the array
+        ballArray.push(b);
+    }
+
+    // returns the array full of randomly created balls
+    return ballArray;
+}
+
+function getARandomColor() {
+    var colors = ['red', 'blue', 'yellow', 'cyan', 'purple', 'pink', 'green'];
+    
+    // a value between 0 and colors.length-1
+    // Math.round = rounded value
+    // Math.randon () a value between 0 and 1
+    var colorIndex = Math.round((colors.length - 1) * Math.random());
+    var c = colors[colorIndex];
+
+    // returns the randon color
+    return c;
+}
+
+function drawAllBalls(ballArray) {
+    ballArray.forEach(function(b) {
+        drawFilledCircle(b);
+    });
+}
+
+function moveAllBalls(ballArray) {
+    // Iterate on all balls in array
+    ballArray.forEach(function(b) {
+        // b is the current ball in the array
+        b.x += b.speedX;
+        b.y += b.speedY;
+
+        testCollisionBallWithWalls(b);
+    });
 }
 
 function testCollisionBallWithWalls(b) {
